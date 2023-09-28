@@ -65,25 +65,25 @@ const runScript = async () => {
                 const plusSign = await page.click(selectorPlusSign);
                 await page.click(selectorPlusSign)
                 
-                // const selectorSendMg = '[aria-label="Send message"]';
-                // await page.waitForSelector(selectorSendMg);
-                // await page.click(selectorSendMg);
+                const selectorSendMg = '[aria-label="Send message"]';
+                await page.waitForSelector(selectorSendMg);
+                await page.click(selectorSendMg);
         
-                // const selectorInput = 'div.css-175oi2r.r-12vffkv input[aria-label="Name, email, or phone number"]';
-                // await page.waitForSelector(selectorInput);
-                // await page.click(selectorInput);             
-                // const emailInsert = 'salazar.mauricio.dev@gmail.com';
-                // await page.type(selectorInput, emailInsert);
+                const selectorInput = 'div.css-175oi2r.r-12vffkv input[aria-label="Name, email, or phone number"]';
+                await page.waitForSelector(selectorInput);
+                await page.click(selectorInput);             
+                const emailInsert = 'salazar.mauricio.dev@gmail.com';
+                await page.type(selectorInput, emailInsert);
     
-                // const selectorChat = '[aria-label="salazar.mauricio.dev@gmail.com"]';
-                // await page.waitForSelector(selectorChat);
-                // await page.click(selectorChat);
+                const selectorChat = '[aria-label="salazar.mauricio.dev@gmail.com"]';
+                await page.waitForSelector(selectorChat);
+                await page.click(selectorChat);
         
-                // const textareaSelector = 'div.css-175oi2r div.css-175oi2r div.css-175oi2r textarea';
-                // await page.waitForSelector(textareaSelector);
-                // await page.click(textareaSelector);
-                // const textareaMg = 'Expensify actualizo a:' + version  + 'PONETE A TRABAJAR';
-                // await page.type(textareaSelector, textareaMg);
+                const textareaSelector = 'div.css-175oi2r div.css-175oi2r div.css-175oi2r textarea';
+                await page.waitForSelector(textareaSelector);
+                await page.click(textareaSelector);
+                const textareaMg = 'Expensify actualizo a:' + version  + 'PONETE A TRABAJAR';
+                await page.type(textareaSelector, textareaMg);
 
                 console.log("Hay una nueva version: ", version)
                 writeVersionToFile(version);    
