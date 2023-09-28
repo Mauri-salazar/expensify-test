@@ -16,15 +16,16 @@ function extractVersion(inputString) {
 
     // Verifique si se encontró una coincidencia y devuélvala, o devuelva nulo si no se encontró ninguna coincidencia
     if (match) {
-    return match[0];
+        return match[0];
     } else {
-    return null;
+        return null;
     }
 }
 
+
 const runScript = async () => {
     const browser = await puppeteerCore.launch({
-        executablePath: '/opt/google/chrome/google-chrome',
+        executablePath: '/usr/bin/google-chrome',
         headless: false,
         userDataDir:'/home/eugenia/.config/google-chrome/Profile 1',
         args: ["--no-sandbox", "--disabled-setupid-sandbox"],
@@ -34,10 +35,10 @@ const runScript = async () => {
         const page = await browser.newPage();
 
         await page.goto('https://staging.new.expensify.com', { waitUntil: "load", });
-           // Set screen size
-        await page.setViewport({width: 1080, height: 1024});
 
-        await page.waitForTimeout(4000)
+        // Set screen size
+        await page.setViewport({ width: 1200, height: 800 });
+
 
         const selectorButton = '[aria-label="My settings"]'
         await page.waitForSelector(selectorButton);
@@ -53,20 +54,46 @@ const runScript = async () => {
         let element = await page.$(versionSelector)
         let value = await page.evaluate(el => el.textContent, element)
         const version = extractVersion(value);
-
         console.log(version)
-
+                    
         try {
             const oldVersion = fs.readFileSync('version.txt', 'utf8');
+            
             if (oldVersion !== version) {
+                const selectorPlusSign = '[aria-label="Send message (Floating action)"]';
+                await page.waitForSelector(selectorPlusSign);
+                const plusSign = await page.click(selectorPlusSign);
+                await page.click(selectorPlusSign)
+                
+                // const selectorSendMg = '[aria-label="Send message"]';
+                // await page.waitForSelector(selectorSendMg);
+                // await page.click(selectorSendMg);
+        
+                // const selectorInput = 'div.css-175oi2r.r-12vffkv input[aria-label="Name, email, or phone number"]';
+                // await page.waitForSelector(selectorInput);
+                // await page.click(selectorInput);             
+                // const emailInsert = 'salazar.mauricio.dev@gmail.com';
+                // await page.type(selectorInput, emailInsert);
+    
+                // const selectorChat = '[aria-label="salazar.mauricio.dev@gmail.com"]';
+                // await page.waitForSelector(selectorChat);
+                // await page.click(selectorChat);
+        
+                // const textareaSelector = 'div.css-175oi2r div.css-175oi2r div.css-175oi2r textarea';
+                // await page.waitForSelector(textareaSelector);
+                // await page.click(textareaSelector);
+                // const textareaMg = 'Expensify actualizo a:' + version  + 'PONETE A TRABAJAR';
+                // await page.type(textareaSelector, textareaMg);
+
                 console.log("Hay una nueva version: ", version)
-                writeVersionToFile(version);
-                sendEmailNotification(version)
+                writeVersionToFile(version);    
+            
             } else {
-                console.log("Misma version detestada ", version)
+                console.log("Misma version detectada ", version)
             }
 
         } catch (err) { 
+            console.log(err);
             writeVersionToFile(version);
         }
 
